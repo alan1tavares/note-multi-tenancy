@@ -19,6 +19,7 @@ O projeto está em estado de dsenvolvimento.
 # Referência
 
 - https://learn.microsoft.com/en-us/ef/core/miscellaneous/multitenancy
+- https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
 
 # Licença
 
