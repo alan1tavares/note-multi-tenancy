@@ -1,4 +1,16 @@
+using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration["ConnectionString"];
+builder.Services.AddDbContext<NoteDbContext>(options => 
+    options.UseNpgsql(connectionString));
+
+builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<NoteDbContext>();
+
 
 // Add services to the container.
 
