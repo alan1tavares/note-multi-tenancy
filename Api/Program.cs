@@ -1,4 +1,7 @@
+using Domain.Entities;
+using Domain.UseCase.Repository;
 using Infrastructure;
+using Infrastructure.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +14,7 @@ builder.Services.AddDbContext<NoteDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<NoteDbContext>();
 
-
-// Add services to the container.
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
