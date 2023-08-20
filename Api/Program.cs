@@ -1,9 +1,12 @@
+using Api.JWT;
 using Domain.Entities;
 using Domain.UseCase.Repository;
 using Infrastructure;
 using Infrastructure.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,23 @@ builder.Services.AddDbContext<NoteDbContext>(options =>
 
 builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<NoteDbContext>();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(options => 
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(SecretKey.GetWithEncoding()),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
