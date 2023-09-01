@@ -18,6 +18,17 @@ builder.Services.AddDbContext<NoteDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<NoteDbContext>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequiredLength = 3;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+});
+
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options => 
 {
