@@ -1,6 +1,7 @@
-﻿namespace Domain.UseCase.Result
+﻿
+namespace Domain.UseCase.Result
 {
-    public class Error
+    public class ExecutionError
     {
         public string Description { get; set; } = default!;
     }
