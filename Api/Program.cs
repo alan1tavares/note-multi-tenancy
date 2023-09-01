@@ -6,6 +6,7 @@ using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ var connectionString = builder.Configuration["ConnectionString"];
 builder.Services.AddDbContext<NoteDbContext>(options => 
     options.UseNpgsql(connectionString));
 
-builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<NoteDbContext>();
 
 builder.Services.AddAuthorization();
