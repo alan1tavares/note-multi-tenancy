@@ -1,7 +1,11 @@
-﻿using Api.Views;
+﻿using Api.JWT;
+using Api.Views;
 using Domain.Entities;
+using Domain.UseCase.Account;
 using Domain.UseCase.Repository;
+using Infrastructure;
 using Infrastructure.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -10,22 +14,18 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        private IRepository<User> _userRepository;
+        private Account _account;
 
-        public AccountController(IRepository<User> userRepository)
+        public AccountController(Account account)
         {
-            _userRepository = userRepository;
+            _account = account;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> PostAccount(UserView user)
+        [AllowAnonymous]
+        [HttpPost("Account")]
+        public async Task<ActionResult> PostAccount(UserAccount user)
         {
-            var result = await _userRepository.SaveAsync(new User 
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Password = user.Password
-            });
+            var result = await _account.CreateAsync(user);
 
             if (!result.Succeeded)
             {

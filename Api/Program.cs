@@ -1,5 +1,6 @@
 using Api.JWT;
 using Domain.Entities;
+using Domain.UseCase.Account;
 using Domain.UseCase.Repository;
 using Infrastructure;
 using Infrastructure.Repository;
@@ -46,7 +47,8 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.AddScoped<IRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepositoryAsync<User>, Repository<User>>();
+builder.Services.AddScoped<IAccount, Account>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
