@@ -14,7 +14,7 @@ namespace Infrastructure
 {
     public class Account : IAccount
     {
-        private UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private IRepositoryAsync<User> _userRepository;
 
         public Account(
@@ -53,6 +53,27 @@ namespace Infrastructure
                 return ExecutionResult.Failed(errors.ToArray());
             }
             return ExecutionResult.Success;
+        }
+
+        public async Task<bool> Autenticate(string email, string password)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(email);
+            ArgumentException.ThrowIfNullOrEmpty(password);
+            
+            var appUser = await _userManager.FindByEmailAsync(email);
+            if (appUser == null) return false;
+            return await _userManager.CheckPasswordAsync(appUser, password);
+        }
+
+        public async Task<User?> FindByEmailAsync(string email)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(email);
+            var appUser = await _userManager.FindByEmailAsync(email);
+            if (appUser != null)
+            {
+                return await _userRepository.GeyByIdAsync(appUser.UserId);
+            }
+            return null;
         }
     }
 }

@@ -12,5 +12,16 @@ namespace Infrastructure
         public NoteDbContext(DbContextOptions<NoteDbContext> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(x => x.User)
+                .WithOne()
+                .HasForeignKey<ApplicationUser>(x => x.UserId)
+                .IsRequired();
+        }
     }
 }

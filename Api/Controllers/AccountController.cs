@@ -14,9 +14,9 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        private Account _account;
+        private IAccount _account;
 
-        public AccountController(Account account)
+        public AccountController(IAccount account)
         {
             _account = account;
         }
@@ -32,6 +32,24 @@ namespace Api.Controllers
                 return BadRequest(result.Errors);
             }
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<ActionResult> PostLogin(string email, string password)
+        {
+            if (await _account.Autenticate(email, password))
+            {
+                var user = await _account.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    return Ok(new
+                    {
+                        token = JwtUtils.GenerateToken(user)
+                    });
+                }
+            }
+            return NotFound("User not found or password is worong");
         }
     }
 }
