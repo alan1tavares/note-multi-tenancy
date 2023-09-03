@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    internal class Group
+    public class Group
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
+        public List<User> Users { get; } = new();
     }
 }

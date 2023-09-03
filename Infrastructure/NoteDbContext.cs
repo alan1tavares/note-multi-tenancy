@@ -22,6 +22,14 @@ namespace Infrastructure
                 .WithOne()
                 .HasForeignKey<ApplicationUser>(x => x.UserId)
                 .IsRequired();
+
+            builder.Entity<Group>()
+                .HasMany(e => e.Users)
+                .WithMany(e => e.Groups)
+                .UsingEntity<GroupUser>(
+                    l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict),
+                    r => r.HasOne<Group>().WithMany().HasForeignKey(e => e.GroupId).OnDelete(DeleteBehavior.Restrict)
+                );
         }
     }
 }
