@@ -48,6 +48,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddScoped<IRepositoryAsync<User>, Repository<User>>();
+builder.Services.AddScoped<IRepositoryAsync<GroupUser>, Repository<GroupUser>>();
 builder.Services.AddScoped<IAccount, Account>();
 
 builder.Services.AddControllers();

@@ -13,7 +13,8 @@ namespace Api.JWT
 
             var subject = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("UserId", user.Id.ToString())
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor

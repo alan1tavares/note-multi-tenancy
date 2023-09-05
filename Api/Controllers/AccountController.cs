@@ -22,7 +22,7 @@ namespace Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Account")]
+        [HttpPost()]
         public async Task<ActionResult> PostAccount(UserAccount user)
         {
             var result = await _account.CreateAsync(user);

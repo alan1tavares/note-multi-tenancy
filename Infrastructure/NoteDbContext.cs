@@ -9,6 +9,7 @@ namespace Infrastructure
     public class NoteDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public DbSet<Group> Groups { get; set; }
+
         public NoteDbContext(DbContextOptions<NoteDbContext> options) : base(options)
         {
         }
@@ -23,12 +24,15 @@ namespace Infrastructure
                 .HasForeignKey<ApplicationUser>(x => x.UserId)
                 .IsRequired();
 
+            builder.Entity<GroupUser>()
+                .HasKey(x => x.Id);
+
             builder.Entity<Group>()
                 .HasMany(e => e.Users)
                 .WithMany(e => e.Groups)
                 .UsingEntity<GroupUser>(
-                    l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict),
-                    r => r.HasOne<Group>().WithMany().HasForeignKey(e => e.GroupId).OnDelete(DeleteBehavior.Restrict)
+                    l => l.HasOne(e => e.User).WithMany(e => e.GroupUsers).OnDelete(DeleteBehavior.Restrict),
+                    r => r.HasOne(e => e.Group).WithMany(e => e.GroupUsers).OnDelete(DeleteBehavior.Restrict)
                 );
         }
     }

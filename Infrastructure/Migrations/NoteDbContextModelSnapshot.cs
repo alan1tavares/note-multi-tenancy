@@ -39,25 +39,21 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.GroupUser", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("GroupId1")
-                        .HasColumnType("uuid");
+                    b.HasKey("Id");
 
-                    b.Property<Guid>("UserId1")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("GroupId", "UserId");
-
-                    b.HasIndex("GroupId1");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("GroupUser");
                 });
@@ -284,28 +280,16 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.GroupUser", b =>
                 {
-                    b.HasOne("Domain.Entities.Group", null)
-                        .WithMany()
+                    b.HasOne("Domain.Entities.Group", "Group")
+                        .WithMany("GroupUsers")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", null)
-                        .WithMany()
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("GroupUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Group");
@@ -373,6 +357,16 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Group", b =>
+                {
+                    b.Navigation("GroupUsers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("GroupUsers");
                 });
 #pragma warning restore 612, 618
         }
