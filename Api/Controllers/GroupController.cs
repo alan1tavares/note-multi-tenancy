@@ -10,9 +10,9 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class GroupController : ControllerBase
     {
-        private IRepositoryAsync<GroupUser> _repositoryGroupUser;
+        private ICoreRepositoryAsync<GroupUser> _repositoryGroupUser;
 
-        public GroupController(IRepositoryAsync<GroupUser> repositoryGroupUser)
+        public GroupController(ICoreRepositoryAsync<GroupUser> repositoryGroupUser)
         {
             _repositoryGroupUser = repositoryGroupUser;
         }
@@ -23,7 +23,6 @@ namespace Api.Controllers
         {
             string? userId = User.FindFirstValue("UserId");
             if (userId == null) return Unauthorized();
-
 
             var groupUser = new GroupUser
             {

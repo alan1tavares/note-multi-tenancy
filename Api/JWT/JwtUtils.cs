@@ -7,15 +7,21 @@ namespace Api.JWT
 {
     public class JwtUtils
     {
-        public static string GenerateToken(User user)
+        public static string GenerateToken(UserToken user)
         {
+            ArgumentNullException.ThrowIfNull(user);
             var secretKey = SecretKey.GetWithEncoding();
 
             var subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("UserId", user.Id.ToString())
+                new Claim("UserId", user.Id)
             });
+
+            if (!string.IsNullOrEmpty(user.GroupId))
+            {
+                subject.AddClaim(new Claim("GroupId", user.GroupId));
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

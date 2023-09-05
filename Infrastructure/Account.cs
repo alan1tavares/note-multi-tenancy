@@ -15,11 +15,11 @@ namespace Infrastructure
     public class Account : IAccount
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private IRepositoryAsync<User> _userRepository;
+        private ICoreRepositoryAsync<User> _userRepository;
 
         public Account(
             UserManager<ApplicationUser> userManager,
-            IRepositoryAsync<User> userRepository)
+            ICoreRepositoryAsync<User> userRepository)
         {
             _userManager = userManager;
             _userRepository = userRepository;

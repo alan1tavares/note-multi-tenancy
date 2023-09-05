@@ -3,10 +3,11 @@ using Domain.UseCase.Repository;
 using Domain.UseCase.Result;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repository
 {
-    public class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : class, IEntity
+    public class Repository<TEntity> : ICoreRepositoryAsync<TEntity> where TEntity : class, IEntity
     {
         private NoteDbContext _dbContext;
         private DbSet<TEntity> _dbSet;
@@ -22,6 +23,16 @@ namespace Infrastructure.Repository
             ArgumentNullException.ThrowIfNull(entity);
             await _dbSet.AddAsync(entity);
             return ExecutionResult.Success;
+        }
+
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>>? filter)
+        {
+            IQueryable<TEntity> query = _dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            return await Task.FromResult(query.ToList());
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
