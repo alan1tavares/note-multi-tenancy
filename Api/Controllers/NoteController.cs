@@ -1,8 +1,10 @@
-using Api.Views;
+﻿using Api.Views;
 using Domain.Entities;
 using Domain.UseCase.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
 namespace Api.Controllers
 {
     [ApiController]
@@ -40,6 +42,15 @@ namespace Api.Controllers
             await _noteRepository.SaveChangesAsync();
             if (result.Succeeded) return Ok();
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet()]
+        [Authorize]
+        public async Task<ActionResult> GetNote()
+        {
+            if (string.IsNullOrEmpty(User.FindFirstValue("GroupId")))
+                return Unauthorized("User not subscribe group");
+            return Ok(await _noteRepository.GetAllAsync());
         }
 
     }

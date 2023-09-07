@@ -1,5 +1,6 @@
 using Api.JWT;
 using Domain.Entities;
+using Domain.UseCase;
 using Domain.UseCase.Account;
 using Domain.UseCase.Repository;
 using Infrastructure;
@@ -52,11 +53,14 @@ builder.Services.AddScoped<ICoreRepositoryAsync<GroupUser>, Repository<GroupUser
 builder.Services.AddScoped<IGroupUserRepository, GroupUserRepository>();
 builder.Services.AddScoped<ICoreRepositoryAsync<Note>, Repository<Note>>();
 builder.Services.AddScoped<IAccount, Account>();
+builder.Services.AddScoped<ITenant, Tenant>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
