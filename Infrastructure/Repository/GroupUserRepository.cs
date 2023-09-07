@@ -16,8 +16,8 @@ namespace Infrastructure.Repository
 
         public async Task<bool> ExistAsync(Guid userId, Guid groupId)
         {
-            var groupUser = await Get(e => (e.GroupId == groupId) && (e.UserId == userId));
-            return groupUser != null;
+            var listGroupUser = await Get(e => (e.GroupId == groupId) && (e.UserId == userId));
+            return listGroupUser.Count() > 0;
         }
     }
 }
