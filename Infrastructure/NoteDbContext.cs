@@ -32,6 +32,9 @@ namespace Infrastructure
             builder.Entity<GroupUser>()
                 .HasKey(x => x.Id);
 
+            builder.Entity<GroupUser>()
+                .HasIndex(e => new { e.GroupId, e.UserId }).IsUnique();
+
             builder.Entity<Group>()
                 .HasMany(e => e.Users)
                 .WithMany(e => e.Groups)
