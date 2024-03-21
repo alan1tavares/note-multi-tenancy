@@ -1,3 +1,4 @@
+using Api;
 using Api.JWT;
 using Domain.Entities;
 using Domain.UseCase;
@@ -8,7 +9,6 @@ using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +54,7 @@ builder.Services.AddScoped<IGroupUserRepository, GroupUserRepository>();
 builder.Services.AddScoped<ICoreRepositoryAsync<Note>, Repository<Note>>();
 builder.Services.AddScoped<IAccount, Account>();
 builder.Services.AddScoped<ITenant, Tenant>();
+builder.Services.AddScoped<TenantMiddleware>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -76,5 +77,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<TenantMiddleware>();
 
 app.Run();

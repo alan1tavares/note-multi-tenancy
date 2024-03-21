@@ -8,6 +8,6 @@ namespace Domain.UseCase
 {
     public interface ITenant
     {
-        public Guid? Group { get; }
+        public Guid? Group { get; set;}
     }
 }
