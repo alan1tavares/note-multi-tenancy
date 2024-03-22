@@ -7,6 +7,43 @@
 	},
 	"item": [
 		{
+			"name": "Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"alan\",\r\n  \"email\": \"alan@turing.com\",\r\n  \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-base}}/Account",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"Account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Login",
 			"event": [
 				{
@@ -33,7 +70,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url-base}}/Account/Login?email=b@b.com&password=123",
+					"raw": "{{url-base}}/Account/Login?email=alan@turing.com&password=123",
 					"host": [
 						"{{url-base}}"
 					],
@@ -44,7 +81,93 @@
 					"query": [
 						{
 							"key": "email",
-							"value": "b@b.com"
+							"value": "alan@turing.com"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AccountAda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ada\",\r\n  \"email\": \"ada@turing.com\",\r\n  \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-base}}/Account",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"Account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let res = pm.response.json();\r",
+							"pm.environment.set(\"token\", res.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-base}}/Account/Login?email=ada@turing.com&password=123",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"Account",
+						"Login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "ada@turing.com"
 						},
 						{
 							"key": "password",
@@ -92,7 +215,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url-base}}/Account/SubscribeGroup?groupId=25ed721f-390c-46b7-bbae-805ed1fd7e3e",
+					"raw": "{{url-base}}/Account/SubscribeGroup?groupId=064fb624-be4c-49a1-a015-80594e6001e5",
 					"host": [
 						"{{url-base}}"
 					],
@@ -103,45 +226,15 @@
 					"query": [
 						{
 							"key": "groupId",
-							"value": "25ed721f-390c-46b7-bbae-805ed1fd7e3e"
+							"value": "064fb624-be4c-49a1-a015-80594e6001e5",
+							"description": "enigma"
+						},
+						{
+							"key": "groupId",
+							"value": "9f2c4a7f-d33d-4840-a807-81ff79ab876c",
+							"description": "poe",
+							"disabled": true
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Account",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"b\",\r\n  \"email\": \"b@b.com\",\r\n  \"password\": \"123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url-base}}/Account",
-					"host": [
-						"{{url-base}}"
-					],
-					"path": [
-						"Account"
 					]
 				}
 			},
@@ -183,7 +276,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url-base}}/Group?name=bbb",
+					"raw": "{{url-base}}/Group?name=poe",
 					"host": [
 						"{{url-base}}"
 					],
@@ -193,7 +286,12 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "bbb"
+							"value": "poe"
+						},
+						{
+							"key": "name",
+							"value": "enigma",
+							"disabled": true
 						}
 					]
 				}
