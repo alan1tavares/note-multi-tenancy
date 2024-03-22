@@ -6,7 +6,7 @@ namespace Api;
 
 public class TenantMiddleware : IMiddleware
 {
-    ITenant _tenant;
+    private ITenant _tenant;
 
     public TenantMiddleware(ITenant tenant)
     {
